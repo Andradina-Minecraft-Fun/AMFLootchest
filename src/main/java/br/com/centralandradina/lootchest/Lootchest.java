@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -208,12 +210,12 @@ public final class Lootchest extends JavaPlugin  implements Listener {
                                 Integer quantity = loot.getInt("items." + key + ".quantity");
                                 String name = null;
                                 if(loot.isSet("items." + key + ".name")) {
-                                    name = loot.getString("items." + key + ".name");
+                                    name = this.color(loot.getString("items." + key + ".name"));
                                 }
                                 List<String> lore = new ArrayList<>();
                                 if(loot.isSet("items." + key + ".lore")) {
                                     for(String lore_line : loot.getStringList("items." + key + ".lore")) {
-                                        lore.add(this.color(lore_line));
+                                        lore.add(this.color(this.parsePlaceholder(lore_line)));
                                     }
                                 }
 
@@ -376,5 +378,31 @@ public final class Lootchest extends JavaPlugin  implements Listener {
 
             return retorno;
         }
+    }
+
+    /**
+     * Faz a troca de RAND
+     */
+    public String parsePlaceholder(String lore)
+    {
+        Pattern patt = Pattern.compile("%rand:[0-9]*:[0-9]*%", Pattern.CASE_INSENSITIVE);
+        Matcher matc = patt.matcher(lore);
+
+        String theGroup = "";
+
+        while (matc.find()) {
+            String found = matc.group(0);
+
+            String parts[] = found.replaceAll("%", "").split(":");
+
+            Integer minValue = Integer.parseInt(parts[1])-1;
+            Integer maxValue = Integer.parseInt(parts[2]);
+
+            Integer randomized = (int)(Math.random()*(maxValue-minValue))+1+minValue;
+
+            lore = lore.replace(found, randomized+"");
+        }
+
+        return lore;
     }
 }
