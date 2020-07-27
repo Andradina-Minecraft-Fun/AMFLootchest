@@ -13,6 +13,10 @@
 # Compiled
 target/
 
+# Idea IDE
+.idea/
+Lootchest.iml
+
 # Package Files #
 *.jar
 *.war

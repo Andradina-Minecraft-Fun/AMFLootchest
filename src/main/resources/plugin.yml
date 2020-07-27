@@ -1,0 +1,4 @@
+name: Lootchest
+version: ${project.version}
+main: br.com.centralandradina.lootchest.Lootchest
+api-version: 1.16
