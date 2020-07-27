@@ -10,7 +10,9 @@ Download the jar from [releases page](https://github.com/Andradina-Minecraft-Fun
 
 Place a chest, attach a sign in one of the sides with first line [loot] and second line the drops list identifier
 
-@todo: IMAGE
+
+![Imgur](https://i.imgur.com/wzGBV1w.png)
+
 
 When you create a new loot chest, an file with the same name will be created on plugins/Lootchest/loots/NAME.yml
 
