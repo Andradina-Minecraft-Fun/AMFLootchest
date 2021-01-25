@@ -1,3 +1,7 @@
+
+# Join 
+[![Discord](https://i.imgur.com/tyZLFHl.png)](https://discord.gg/cKE8kqGXWK)
+
 # Lootchest
 
 Create a chest for your dungeons on your 1.16.1 servers, with random loot and time to open
