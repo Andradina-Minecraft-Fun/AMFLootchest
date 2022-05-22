@@ -56,6 +56,9 @@ open_after: 0                                   # Number of minutes that the che
 # can create lootchests
 - amf.lootchest.create
 
+# can destroy chest and/or sign
+- amf.lootchest.destroy
+
 # can open any chest
 - amf.lootchest.open
 

@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -38,8 +39,6 @@ import java.util.regex.Pattern;
 
 
 // @todo Adicionar permissão de quebrar
-// @todo Adicionar permissão se pode pegar
-// @todo Adicionar permissão amf.lootchest.open.NOME_LOOT
 public final class AMFLootchest extends JavaPlugin implements Listener {
 
     FileConfiguration config;
@@ -73,6 +72,50 @@ public final class AMFLootchest extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    /**
+     * Break block
+     */
+    @EventHandler()
+    public void onBlockBreak(final BlockBreakEvent event)
+    {
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+
+        // Verifica se é um bau
+        if(block.getType().toString().toLowerCase().contains("chest")) {
+
+            // Recupera se tem placa em volta
+            Sign sign = this.getSignAround(block);
+            if(sign != null) {
+                // Verifica se é uma placa de loot
+                if(sign.getLine(0).toLowerCase().equals("[loot]")) {
+
+                    // Verifica se tem permissão
+                    if(!player.hasPermission("amf.lootchest.destroy")) {
+                        player.sendMessage(this.color(config.getString("prefix") + "Você não pode quebrar esse bau"));
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Verifica se é uma placa
+        if(block.getType().toString().toLowerCase().contains("wall_sign")) {
+            Sign sign = (Sign)block.getState();
+            if(sign.getLine(0).toLowerCase().equals("[loot]")) {
+                // Verifica se tem permissão
+                if(!player.hasPermission("amf.lootchest.destroy")) {
+                    player.sendMessage(this.color(config.getString("prefix") + "Você não pode quebrar essa placa"));
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+
+        }
+
     }
 
     /**
