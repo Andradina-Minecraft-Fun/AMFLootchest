@@ -36,6 +36,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+// @todo Adicionar permissão de quebrar
+// @todo Adicionar permissão se pode pegar
+// @todo Adicionar permissão amf.lootchest.open.NOME_LOOT
 public final class AMFLootchest extends JavaPlugin implements Listener {
 
     FileConfiguration config;
@@ -81,43 +85,52 @@ public final class AMFLootchest extends JavaPlugin implements Listener {
         Block block = event.getBlock();
         if(event.getLine(0).toLowerCase().equals("[loot]")) {
             if(block.getType().toString().toLowerCase().contains("wall_sign")) {
-                BlockFace blockFace = ((Directional) block.getBlockData()).getFacing();
-                Block blockBehindSign = null;
-                switch (blockFace) {
-                    case WEST:
-                        blockBehindSign = block.getRelative(BlockFace.EAST);
-                        break;
-                    case EAST:
-                        blockBehindSign = block.getRelative(BlockFace.WEST);
-                        break;
-                    case NORTH:
-                        blockBehindSign = block.getRelative(BlockFace.SOUTH);
-                        break;
-                    case SOUTH:
-                        blockBehindSign = block.getRelative(BlockFace.NORTH);
-                        break;
-                    default:
-                        break;
-                }
 
-                if(blockBehindSign.getType().toString().toLowerCase().contains("chest")) {
 
-                    String loot_id = event.getLine(1);
-
-                    if(loot_id.length() > 0) {
-                        // Carrega o loot
-                        this.loots_list.add(this.loadLoot(loot_id));
-                    }
-                    else {
-                        event.setLine(1, this.color("&4Second Line"));
-                        event.setLine(2, this.color("&4Must by the drop list ID"));
-                    }
-
+                // Verifica se tem permissão para por a placa
+                Player player = event.getPlayer();
+                if(!player.hasPermission("amf.lootchest.create")) {
+                    player.sendMessage(this.color(config.getString("prefix") + "Você não pode por essa placa"));
+                    event.setCancelled(true);
+                    return;
                 }
                 else {
-                    event.setLine(1, this.color("&4Wrong place"));
-                    event.setLine(2, this.color("&4Put this sign"));
-                    event.setLine(3, this.color("&4on chest"));
+                    BlockFace blockFace = ((Directional) block.getBlockData()).getFacing();
+                    Block blockBehindSign = null;
+                    switch (blockFace) {
+                        case WEST:
+                            blockBehindSign = block.getRelative(BlockFace.EAST);
+                            break;
+                        case EAST:
+                            blockBehindSign = block.getRelative(BlockFace.WEST);
+                            break;
+                        case NORTH:
+                            blockBehindSign = block.getRelative(BlockFace.SOUTH);
+                            break;
+                        case SOUTH:
+                            blockBehindSign = block.getRelative(BlockFace.NORTH);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (blockBehindSign.getType().toString().toLowerCase().contains("chest")) {
+
+                        String loot_id = event.getLine(1);
+
+                        if (loot_id.length() > 0) {
+                            // Carrega o loot
+                            this.loots_list.add(this.loadLoot(loot_id));
+                        } else {
+                            event.setLine(1, this.color("&4Second Line"));
+                            event.setLine(2, this.color("&4Must by the drop list ID"));
+                        }
+
+                    } else {
+                        event.setLine(1, this.color("&4Wrong place"));
+                        event.setLine(2, this.color("&4Put this sign"));
+                        event.setLine(3, this.color("&4on chest"));
+                    }
                 }
             }
             else {
@@ -161,9 +174,9 @@ public final class AMFLootchest extends JavaPlugin implements Listener {
 
                 // Recupera a placa em volta
                 Sign sign = this.getSignAround(b);
-
                 if(sign != null) {
 
+                    // Verifica se é uma placa de loot
                     if(!sign.getLine(0).toLowerCase().equals("[loot]")) {
                         return;
                     }
@@ -176,6 +189,14 @@ public final class AMFLootchest extends JavaPlugin implements Listener {
                     String loot_id = sign.getLine(1).toLowerCase();
                     for (FileConfiguration loot : loots_list) {
                         if(loot.getString("name").equals(loot_id)) {
+
+                            // Verifica se tem permissão para abrir o loot
+                            Player player = event.getPlayer();
+                            if((!player.hasPermission("amf.lootchest.open."+loot_id)) && (!player.hasPermission("amf.lootchest.open"))) {
+                                player.sendMessage(this.color(config.getString("prefix") + "Você não pode abrir esse bau"));
+                                event.setCancelled(true);
+                                return;
+                            }
 
                             // Verifica se pode abrir
                             try {
@@ -243,6 +264,7 @@ public final class AMFLootchest extends JavaPlugin implements Listener {
                                 getLogger().info(e.getMessage() + "!");
                             }
 
+                            // Sai do loop
                             break;
                         }
                     }

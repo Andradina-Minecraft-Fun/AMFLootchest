@@ -24,7 +24,7 @@ Configure the loot and time here
 
 # Config
 
- ```
+ ```yml
 name: test                                      # name of loot identifier
 items:                                          # item list
   item01:
@@ -48,5 +48,17 @@ items:                                          # item list
 last_open: 26-07-2020 23:08:41                  # Don't change this. This is plugin field to control when can be opened again
 open_after: 0                                   # Number of minutes that the chest can be opened again
 
-``
+```
 
+# Permissions
+
+```yml
+# can create lootchests
+- amf.lootchest.create
+
+# can open any chest
+- amf.lootchest.open
+
+# can open some especific chest
+- amf.lootchest.open.LOOT_ID
+```
