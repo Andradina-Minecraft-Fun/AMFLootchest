@@ -1,0 +1,4 @@
+name: AMFLootchest
+version: ${project.version}
+main: br.com.centralandradina.AMFLootchest
+api-version: 1.18

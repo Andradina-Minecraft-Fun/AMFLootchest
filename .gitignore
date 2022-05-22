@@ -14,8 +14,9 @@
 target/
 
 # Idea IDE
-.idea/
-Lootchest.iml
+# .idea/
+.gradle/
+# Lootchest.iml
 
 # Package Files #
 *.jar
