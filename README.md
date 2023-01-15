@@ -1,6 +1,6 @@
 
 # Join 
-[![Discord](https://i.imgur.com/tyZLFHl.png)](https://discord.gg/cKE8kqGXWK)
+[![Discord](https://i.imgur.com/tyZLFHl.png)](https://discord.gg/D47yfBPga5)
 
 # Lootchest
 
