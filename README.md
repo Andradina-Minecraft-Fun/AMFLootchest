@@ -1,3 +1,23 @@
+# tarefas
+
+- [x] criar o arquivo chests.yaml
+- [x] adicionar o comando `/amdlootchest create loot_table tempo_minutos INFO_TYPE permission`, que ao clicar no bau, guarda a posição e mundo, e o loottable no arquivos chests (info type é "nao abrir" "exibir quando pode abrir", "exibir que pode abrir de x em x tempo", "abrir vazio")
+- [x] verificar se o chest ja existe
+- [x] remover o chest
+- [x] editar o chest (só criar por cima)
+- [x] quando remover um bau, tem que ver se ele é um lootchest
+- [x] carregar o arquivo chests.yaml num vetor de lootschests, que armazena as configurações do bau, criar a classe lootchest
+- [x] ao quebrar, ver se tem permissão de quebrar
+- [x] ao abrir, ver se tem permissão de abrir
+- [x] ao abrir, ver se pode abrir pelo tempo, e retorna conforme INFO_TYPE
+- [x] criar comando de reconfigurar
+- [x] comando que salva os itens do bau no loot_table `/amdlootchest saveloot loot_table`
+- [x] quando fechar o bau, limpa para prevenir dup
+
+- [ ] verificar se tem bau conectado (bau duplo) e se tiver, tambem criar esse bau na lista de configuração automaticamente
+- [ ] verificar se tem bau conectado (bau duplo) e se tiver, quando abrir, tambem salvar a data que abriu nesse bau
+- [ ] achar uma forma de adicionar atributos num item, json meta?
+
 
 # Join 
 [![Discord](https://i.imgur.com/tyZLFHl.png)](https://discord.gg/D47yfBPga5)

@@ -1,0 +1,47 @@
+# prefix
+prefix: ''
+
+# loot table
+loots:
+
+  # default example loot table
+  default:
+
+    # and more: add all itens to a chest, run /amflootchest saveloot LOOT_TABLE_NAME and click in chest to save loot table
+    items:
+      item0:
+        # chance 0.01 from 1
+        chance: 0.75
+
+        # meta
+        meta:
+          type: DIAMOND
+          amount: 15
+
+# chests
+chests:
+    # location of chest
+  - location:
+      x: 1
+      y: 1
+      z: 1
+      world: world
+
+    # permissão para quem pode abrir
+    permission: 'default'
+
+    # minutes to wait to open again  
+    open_after: 0
+
+    # last time chest was opened
+    last_open:  ''
+
+     # loot table to use
+    loot_table: default
+
+    # 0 = do nothing
+    # 1 = return message to player that this chest open X in X time
+    # 2 = return message when can be opened
+    # 3 = open chest, but nothing inside
+    info_type: 0 
+  
